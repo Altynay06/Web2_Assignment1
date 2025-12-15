@@ -4,7 +4,6 @@ const PORT = 5000;
 
 app.use(express.urlencoded({ extended: true }));
 
-// GET route - form
 app.get('/', (req, res) => {
     res.send(`
         <h1>BMI Calculator</h1>
@@ -16,22 +15,18 @@ app.get('/', (req, res) => {
     `);
 });
 
-// POST route - calculate BMI
 app.post('/calculate-bmi', (req, res) => {
     const weight = parseFloat(req.body.weight);
     const height = parseFloat(req.body.height);
     
-    // Validation
     if (!weight || !height || weight <= 0 || height <= 0) {
         return res.send('Error: Enter positive numbers<br><a href="/">Back</a>');
     }
     
-    // BMI calculation
     const heightM = height / 100;
     const bmi = (weight / (heightM * heightM)).toFixed(2);
     const bmiNum = parseFloat(bmi);
     
-    // Category with colors (inline styles)
     let result = '';
     if (bmiNum < 18.5) {
         result = `<span style="color: blue">Underweight: ${bmi}</span>`;
